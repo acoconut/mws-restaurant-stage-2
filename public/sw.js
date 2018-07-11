@@ -1,6 +1,6 @@
 
 const version= '1';
-const staticCacheName = "restaurant-v" + version;
+const staticCacheName = "restaurants-v" + version;
 const dynamicCacheName = "dyn-restaurant-v" + version;
 
 self.addEventListener("install", (event) => {
