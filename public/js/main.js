@@ -184,7 +184,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
  */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
-    navigator.serviceWorker.register('sw.js', {scope: '/'})
+    navigator.serviceWorker.register('sw.js', {scope: '/public/'})
       .then(res => {
         console.log('sw has been registered')
       }).catch(err => {
@@ -192,4 +192,31 @@ if ('serviceWorker' in navigator) {
     });
   });
 
+}
+
+// Get all of the images that are marked up to lazy load
+const images = document.querySelectorAll('restaurant-img');
+const config = {
+  // If the image gets within 50px in the Y axis, start the download.
+  rootMargin: '50px 0px',
+  threshold: 0.01
+};
+
+// The observer for the images on the page
+let observer = new IntersectionObserver(onIntersection, config);
+images.forEach(image => {
+  observer.observe(image);
+});
+
+function onIntersection(entries) {
+  // Loop through the entries
+  entries.forEach(entry => {
+    // Are we in viewport?
+    if (entry.intersectionRatio > 0) {
+
+      // Stop watching and load the image
+      observer.unobserve(entry.target);
+      preloadImage(entry.target);
+    }
+  });
 }

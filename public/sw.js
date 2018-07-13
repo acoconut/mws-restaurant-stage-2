@@ -49,12 +49,6 @@ event.waitUntil(
 );
 });
 
-self.addEventListener('load', event => {
-  [].forEach.call(document.querySelectorAll('img[data-src]'), function(img) {
-      img.removeAttribute('data-src');
-  })
-});
-
 self.addEventListener('fetch', event => {
 event.respondWith(
   caches.match(event.request, { ignoreSearch: true }).then(response => {
@@ -63,5 +57,7 @@ event.respondWith(
   })
 )
 });
+
+
 
 
